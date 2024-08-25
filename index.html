@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        .main-container {
+            padding-top: 50px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container main-container">
+        <h3>2부예배</h3>
+        <label for="sermon-date">날짜</label><input type="date" id="sermon-date" class="sermon-input" placeholder="날짜 : 2024-01-01">
+        <label for="sermon-title">설교제목</label><input type="text" id="sermon-title" class="sermon-input"  placeholder="설교제목">
+        <label for="sermon-pastor">설교자</label><input type="text" id="sermon-pastor" class="sermon-input"  placeholder="설교자" value="손범수">
+        <label for="sermon-scripture">성경말씀</label><input type="text" id="sermon-scripture" class="sermon-input"  placeholder="요한복음 1장 1~3절">
+        <label for="sermon-mp3">MP3</label><input type="url" id="sermon-mp3" class="sermon-input"  placeholder="MP3">
+        <label for="sermon-podcast">팟캐스트</label><input type="url" id="sermon-podcast" class="sermon-input"  placeholder="팟캐스트">
+        <label for="sermon-video">유튜브</label><input type="url" id="sermon-video" class="sermon-input"  placeholder="유튜브">
+    </div>
+
+    <textarea rows="100" cols="150" id="main-text"></textarea>
+
+    <script>
+        $(".sermon-input").on("change", function() {
+            getTemplate();
+        });
+        function getTemplate() {
+            const sermonDate = document.getElementById('sermon-date').value;
+            const sermonTitle = document.getElementById('sermon-title').value;
+            const sermonPastor = document.getElementById('sermon-pastor').value;
+            const sermonScripture = document.getElementById('sermon-scripture').value;
+            const sermonMp3 = document.getElementById('sermon-mp3').value;
+            const sermonPodCast = document.getElementById('sermon-podcast').value;
+            const sermonVideo = document.getElementById('sermon-video').value;
+
+            const mainText = document.getElementById('main-text');
+
+            console.log(sermonDate, sermonTitle, sermonPastor, sermonScripture, sermonMp3, sermonPodCast, sermonVideo);
+
+            const sermonDateObject = new Date(sermonDate);
+            const sermonYear = String(sermonDateObject.getFullYear());
+            const sermonMonth = String(sermonDateObject.getMonth() + 1).padStart(2, 0);
+            const sermonDay = String(sermonDateObject.getDate()).padStart(2, 0);
+
+            let template = `${sermonDate} - ${sermonTitle}
+
+${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배
+
+${sermonTitle}
+
+설교자 : ${sermonPastor} 목사
+
+성경말씀 : ${sermonScripture}
+
+MP3 : ${sermonMp3}
+
+팟캐스트 : ${sermonPodCast}
+
+설교말씀영상 : ${sermonVideo}
+
+
+▒▒▒　안덕교회 주일설교 안내　▒▒▒
+- 안덕교회 카페 : http://cafe.daum.net/anduk-church
+- 안덕교회 주일설교 : http://cafe.daum.net/anduk-church/Ambk
+- 안덕교회 주일설교 팟캐스트 : http://www.podbbang.com/ch/1770192
+
+<a href="${sermonMp3}">
+<img width="100" src="https://andeok-sermon.s3.ap-northeast-2.amazonaws.com/mp3_button.png">
+</a>
+<a href="${sermonPodCast}">
+<img width="100" src="https://andeok-sermon.s3.ap-northeast-2.amazonaws.com/podcast_button.png">
+</a>
+
+[전체영상] ${sermonDate} 안덕교회 주일예배 - 1부
+https://www.youtube.com/watch?v=
+-----------------
+${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 1부
+
+${sermonTitle}
+
+설교자 : ${sermonPastor} 목사
+
+성경말씀 : ${sermonScripture}
+-----------------
+
+[전체영상] ${sermonDate} 안덕교회 주일예배 - 2부
+https://www.youtube.com/watch?v=
+-----------------
+${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 2부
+
+${sermonTitle}
+
+설교자 : ${sermonPastor} 목사
+
+성경말씀 : ${sermonScripture}
+---------------------
+
+[전체영상] ${sermonDate} 안덕교회 주일예배 - 구역찬양예배
+https://www.youtube.com/watch?v=
+-----------------
+${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 구역찬양예배
+
+신앙의 순수성을 잃지 맙시다
+
+설교자 : ${sermonPastor} 목사
+
+성경말씀 : 사사기 16장 20절
+-----------------
+`;            
+
+    console.log(template)
+
+    mainText.value = template;
+        }
+
+
+    </script>    
+</body>
+</html>
