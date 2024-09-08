@@ -12,6 +12,10 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pouchdb@9.0.0/dist/pouchdb.min.js"></script>
+    <script>
+        const db = new PouchDB('video_text');
+    </script>
 </head>
 <body>
     <div class="container main-container">
@@ -28,8 +32,41 @@
     <textarea rows="100" cols="150" id="main-text"></textarea>
 
     <script>
+        const saveInputData = (videoText) => {
+            const date = $("#sermon-date").val();
+            const title = $("#sermon-title").val();
+            const pastor = $("#sermon-pastor").val();
+            const scripture = $("#sermon-scripture").val();
+            const mp3 = $("#sermon-mp3").val();
+            const podcast = $("#sermon-podcast").val();
+            const video = $("#sermon-video").val();
+
+            const doc = {
+                "_id": date,
+                "date": date,
+                "title": title,
+                "scripture": scripture,
+                "mp3": mp3,
+                "scripture": scripture,
+                "podcast": podcast,
+                "video": video,
+                "video_text": videoText
+            };
+
+            db.put(doc);
+
+            console.log(doc);
+        }
+
+        const loadInputData = (_id) => {
+            db.get(_id).then(function (doc) {
+                console.log(doc);
+            });
+        };
+
         $(".sermon-input").on("change", function() {
-            getTemplate();
+            const videoText = getTemplate();
+            saveInputData(videoText);
         });
         function getTemplate() {
             const sermonDate = document.getElementById('sermon-date').value;
@@ -118,6 +155,8 @@ ${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 구역찬양�
     console.log(template)
 
     mainText.value = template;
+
+    return template;
         }
 
 
