@@ -1,92 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
     <style>
-        .main-container {
-            padding-top: 50px;
-        }
+      * {
+        font-size: 1rem;
+      }
+      .main-container {
+        padding-top: 50px;
+      }
+
+      .container {
+        padding: 2rem;
+      }
     </style>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/pouchdb@9.0.0/dist/pouchdb.min.js"></script>
     <script>
-        const db = new PouchDB('video_text');
+      const db = new PouchDB('video_text');
     </script>
-</head>
-<body>
-    <div class="container main-container">
+  </head>
+  <body>
+    <div class="grid">
+      <div class="container main-container">
         <h3>2부예배</h3>
-        <label for="sermon-date">날짜</label><input type="date" id="sermon-date" class="sermon-input" placeholder="날짜 : 2024-01-01">
-        <label for="sermon-title">설교제목</label><input type="text" id="sermon-title" class="sermon-input"  placeholder="설교제목">
-        <label for="sermon-pastor">설교자</label><input type="text" id="sermon-pastor" class="sermon-input"  placeholder="설교자" value="손범수">
-        <label for="sermon-scripture">성경말씀</label><input type="text" id="sermon-scripture" class="sermon-input"  placeholder="요한복음 1장 1~3절">
-        <label for="sermon-mp3">MP3</label><input type="url" id="sermon-mp3" class="sermon-input"  placeholder="MP3">
-        <label for="sermon-podcast">팟캐스트</label><input type="url" id="sermon-podcast" class="sermon-input"  placeholder="팟캐스트">
-        <label for="sermon-video">유튜브</label><input type="url" id="sermon-video" class="sermon-input"  placeholder="유튜브">
+        <form>
+          <div>
+            <label for="sermon-date">날짜</label
+            ><input type="date" id="sermon-date" class="sermon-input" placeholder="날짜 : 2024-01-01" />
+          </div>
+          <div>
+            <label for="sermon-title">설교제목</label
+            ><input type="text" id="sermon-title" class="sermon-input" placeholder="설교제목" />
+          </div>
+          <div>
+            <label for="sermon-pastor">설교자</label
+            ><input type="text" id="sermon-pastor" class="sermon-input" placeholder="설교자" value="손범수" />
+          </div>
+          <div>
+            <label for="sermon-scripture">성경말씀</label
+            ><input type="text" id="sermon-scripture" class="sermon-input" placeholder="요한복음 1장 1~3절" />
+          </div>
+          <div>
+            <label for="sermon-mp3">MP3</label
+            ><input type="url" id="sermon-mp3" class="sermon-input" placeholder="MP3" />
+          </div>
+          <div>
+            <label for="sermon-podcast">팟캐스트</label
+            ><input type="url" id="sermon-podcast" class="sermon-input" placeholder="팟캐스트" />
+          </div>
+          <div>
+            <label for="sermon-video">유튜브</label
+            ><input type="url" id="sermon-video" class="sermon-input" placeholder="유튜브" />
+          </div>
+        </form>
+      </div>
+      <div class="container">
+        <textarea rows="100" cols="150" id="main-text"></textarea>
+      </div>
     </div>
 
-    <textarea rows="100" cols="150" id="main-text"></textarea>
-
     <script>
-        const saveInputData = (videoText) => {
-            const date = $("#sermon-date").val();
-            const title = $("#sermon-title").val();
-            const pastor = $("#sermon-pastor").val();
-            const scripture = $("#sermon-scripture").val();
-            const mp3 = $("#sermon-mp3").val();
-            const podcast = $("#sermon-podcast").val();
-            const video = $("#sermon-video").val();
+      const saveInputData = (videoText) => {
+        const date = $('#sermon-date').val();
+        const title = $('#sermon-title').val();
+        const pastor = $('#sermon-pastor').val();
+        const scripture = $('#sermon-scripture').val();
+        const mp3 = $('#sermon-mp3').val();
+        const podcast = $('#sermon-podcast').val();
+        const video = $('#sermon-video').val();
 
-            const doc = {
-                "_id": date,
-                "date": date,
-                "title": title,
-                "scripture": scripture,
-                "mp3": mp3,
-                "scripture": scripture,
-                "podcast": podcast,
-                "video": video,
-                "video_text": videoText
-            };
-
-            db.put(doc);
-
-            console.log(doc);
-        }
-
-        const loadInputData = (_id) => {
-            db.get(_id).then(function (doc) {
-                console.log(doc);
-            });
+        const doc = {
+          _id: date,
+          date: date,
+          title: title,
+          scripture: scripture,
+          mp3: mp3,
+          scripture: scripture,
+          podcast: podcast,
+          video: video,
+          video_text: videoText,
         };
 
-        $(".sermon-input").on("change", function() {
-            const videoText = getTemplate();
-            saveInputData(videoText);
+        db.put(doc);
+
+        console.log(doc);
+      };
+
+      const loadInputData = (_id) => {
+        db.get(_id).then(function (doc) {
+          console.log(doc);
         });
-        function getTemplate() {
-            const sermonDate = document.getElementById('sermon-date').value;
-            const sermonTitle = document.getElementById('sermon-title').value;
-            const sermonPastor = document.getElementById('sermon-pastor').value;
-            const sermonScripture = document.getElementById('sermon-scripture').value;
-            const sermonMp3 = document.getElementById('sermon-mp3').value;
-            const sermonPodCast = document.getElementById('sermon-podcast').value;
-            const sermonVideo = document.getElementById('sermon-video').value;
+      };
 
-            const mainText = document.getElementById('main-text');
+      $('.sermon-input').on('change', function () {
+        const videoText = getTemplate();
+        saveInputData(videoText);
+      });
+      function getTemplate() {
+        const sermonDate = document.getElementById('sermon-date').value;
+        const sermonTitle = document.getElementById('sermon-title').value;
+        const sermonPastor = document.getElementById('sermon-pastor').value;
+        const sermonScripture = document.getElementById('sermon-scripture').value;
+        const sermonMp3 = document.getElementById('sermon-mp3').value;
+        const sermonPodCast = document.getElementById('sermon-podcast').value;
+        const sermonVideo = document.getElementById('sermon-video').value;
 
-            console.log(sermonDate, sermonTitle, sermonPastor, sermonScripture, sermonMp3, sermonPodCast, sermonVideo);
+        const mainText = document.getElementById('main-text');
 
-            const sermonDateObject = new Date(sermonDate);
-            const sermonYear = String(sermonDateObject.getFullYear());
-            const sermonMonth = String(sermonDateObject.getMonth() + 1).padStart(2, 0);
-            const sermonDay = String(sermonDateObject.getDate()).padStart(2, 0);
+        console.log(sermonDate, sermonTitle, sermonPastor, sermonScripture, sermonMp3, sermonPodCast, sermonVideo);
 
-            let template = `${sermonDate} - ${sermonTitle}
+        const sermonDateObject = new Date(sermonDate);
+        const sermonYear = String(sermonDateObject.getFullYear());
+        const sermonMonth = String(sermonDateObject.getMonth() + 1).padStart(2, 0);
+        const sermonDay = String(sermonDateObject.getDate()).padStart(2, 0);
+
+        let template = `${sermonDate} - ${sermonTitle}
 
 ${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배
 
@@ -150,16 +187,14 @@ ${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 구역찬양�
 
 성경말씀 : 사사기 16장 20절
 -----------------
-`;            
+`;
 
-    console.log(template)
+        console.log(template);
 
-    mainText.value = template;
+        mainText.value = template;
 
-    return template;
-        }
-
-
-    </script>    
-</body>
+        return template;
+      }
+    </script>
+  </body>
 </html>
