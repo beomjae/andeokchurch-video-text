@@ -24,10 +24,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="./pouchdb.js"></script>
-    <script src="./pouchdb.upsert.js"></script>
-    <script>
-      const db = new PouchDB('video_text');
-    </script>
+    <script></script>
   </head>
   <body>
     <div class="grid">
@@ -69,133 +66,6 @@
       </div>
     </div>
 
-    <script>
-      const saveInputData = (videoText) => {
-        const date = $('#sermon-date').val();
-        const title = $('#sermon-title').val();
-        const pastor = $('#sermon-pastor').val();
-        const scripture = $('#sermon-scripture').val();
-        const mp3 = $('#sermon-mp3').val();
-        const podcast = $('#sermon-podcast').val();
-        const video = $('#sermon-video').val();
-
-        const doc = {
-          _id: date,
-          date: date,
-          title: title,
-          scripture: scripture,
-          mp3: mp3,
-          scripture: scripture,
-          podcast: podcast,
-          video: video,
-          video_text: videoText,
-        };
-
-        db.put(doc);
-
-        console.log(doc);
-      };
-
-      const loadInputData = (_id) => {
-        db.get(_id).then(function (doc) {
-          console.log(doc);
-        });
-      };
-
-      $('.sermon-input').on('change', function () {
-        const videoText = getTemplate();
-        saveInputData(videoText);
-      });
-      function getTemplate() {
-        const sermonDate = document.getElementById('sermon-date').value;
-        const sermonTitle = document.getElementById('sermon-title').value;
-        const sermonPastor = document.getElementById('sermon-pastor').value;
-        const sermonScripture = document.getElementById('sermon-scripture').value;
-        const sermonMp3 = document.getElementById('sermon-mp3').value;
-        const sermonPodCast = document.getElementById('sermon-podcast').value;
-        const sermonVideo = document.getElementById('sermon-video').value;
-
-        const mainText = document.getElementById('main-text');
-
-        console.log(sermonDate, sermonTitle, sermonPastor, sermonScripture, sermonMp3, sermonPodCast, sermonVideo);
-
-        const sermonDateObject = new Date(sermonDate);
-        const sermonYear = String(sermonDateObject.getFullYear());
-        const sermonMonth = String(sermonDateObject.getMonth() + 1).padStart(2, 0);
-        const sermonDay = String(sermonDateObject.getDate()).padStart(2, 0);
-
-        let template = `${sermonDate} - ${sermonTitle}
-
-${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배
-
-${sermonTitle}
-
-설교자 : ${sermonPastor} 목사
-
-성경말씀 : ${sermonScripture}
-
-MP3 : ${sermonMp3}
-
-팟캐스트 : ${sermonPodCast}
-
-설교말씀영상 : ${sermonVideo}
-
-
-▒▒▒　안덕교회 주일설교 안내　▒▒▒
-- 안덕교회 카페 : http://cafe.daum.net/anduk-church
-- 안덕교회 주일설교 : http://cafe.daum.net/anduk-church/Ambk
-- 안덕교회 주일설교 팟캐스트 : http://www.podbbang.com/ch/1770192
-
-<a href="${sermonMp3}">
-<img width="100" src="https://andeok-sermon.s3.ap-northeast-2.amazonaws.com/mp3_button.png">
-</a>
-<a href="${sermonPodCast}">
-<img width="100" src="https://andeok-sermon.s3.ap-northeast-2.amazonaws.com/podcast_button.png">
-</a>
-
-[전체영상] ${sermonDate} 안덕교회 주일예배 - 1부
-https://www.youtube.com/watch?v=
------------------
-${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 1부
-
-${sermonTitle}
-
-설교자 : ${sermonPastor} 목사
-
-성경말씀 : ${sermonScripture}
------------------
-
-[전체영상] ${sermonDate} 안덕교회 주일예배 - 2부
-https://www.youtube.com/watch?v=
------------------
-${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 2부
-
-${sermonTitle}
-
-설교자 : ${sermonPastor} 목사
-
-성경말씀 : ${sermonScripture}
----------------------
-
-[전체영상] ${sermonDate} 안덕교회 주일예배 - 구역찬양예배
-https://www.youtube.com/watch?v=
------------------
-${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 구역찬양예배
-
-신앙의 순수성을 잃지 맙시다
-
-설교자 : ${sermonPastor} 목사
-
-성경말씀 : 사사기 16장 20절
------------------
-`;
-
-        console.log(template);
-
-        mainText.value = template;
-
-        return template;
-      }
-    </script>
+    <script src="./index.js"></script>
   </body>
 </html>
