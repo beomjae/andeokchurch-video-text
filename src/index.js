@@ -1,91 +1,92 @@
-// 화면을 처음 열면 최근에 저장한 데이터를 불러온다.
-// 1. 마지막 저장한 id 값을 불러온다.
-// 2. 마지막 저장한 ID가 있으면 해당 ID의 데이터를 불러온다.
-const video_text_db = new PouchDB('video_text');
+$(function () {
+  let last_video_id = getLastVideoId();
+  const lastSermonData = loadSermonData(last_video_id);
+  displayToTemplate(lastSermonData.videoText);
+  displayToInputData(lastSermonData);
 
-$(async function () {
-  let last_video_id = get_last_video_id();
-  console.log(last_video_id);
-
-  const lastData = await loadVideoData(last_video_id);
-  if (lastData) {
-    const videoText = getTemplate();
-  }
+  $('.sermon-input').on('change', function () {
+    const sermonData = makeSermonDataFromSermonInputData();
+    saveSermonData(sermonData);
+    displayToTemplate(sermonData.videoText);
+  });
 });
 
-$('.sermon-input').on('change', function () {
-  const videoText = getTemplate();
-  saveInputData(videoText);
-  displayToTemplate(videoText);
-});
+const getSermonInputDataFromInput = () => {
+  const sermonDate = $('#sermon-date').val();
+  const sermonTitle = $('#sermon-title').val();
+  const sermonPastor = $('#sermon-pastor').val();
+  const sermonScripture = $('#sermon-scripture').val();
+  const sermonMp3 = $('#sermon-mp3').val();
+  const sermonPodCast = $('#sermon-podcast').val();
+  const sermonVideo = $('#sermon-video').val();
 
-const displayToInputData = (videoData) => {
-  const date = $('#sermon-date').val(videoData._id);
-  const title = $('#sermon-title').val(videoData.title);
-  const pastor = $('#sermon-pastor').val();
-  const scripture = $('#sermon-scripture').val();
-  const mp3 = $('#sermon-mp3').val();
-  const podcast = $('#sermon-podcast').val();
-  const video = $('#sermon-video').val();
+  return { sermonDate, sermonTitle, sermonPastor, sermonScripture, sermonMp3, sermonPodCast, sermonVideo };
 };
-const displayToTemplate = (videoData) => {
+
+const makeSermonDataFromSermonInputData = () => {
+  const sermonInputData = getSermonInputDataFromInput();
+  const videoText = makeVideoText(sermonInputData);
+  sermonInputData['videoText'] = videoText;
+
+  return sermonInputData;
+};
+
+const saveSermonData = (sermonData) => {
+  const { sermonDate, sermonTitle, sermonPastor, sermonScripture, sermonMp3, sermonPodCast, sermonVideo, videoText } =
+    sermonData;
+  const doc = {
+    id: sermonDate,
+    date: sermonDate,
+    title: sermonTitle,
+    pastor: sermonPastor,
+    scripture: sermonScripture,
+    mp3: sermonMp3,
+    podcast: sermonPodCast,
+    video: sermonVideo,
+    videoText: videoText,
+  };
+
+  localStorage.setItem(doc.id, JSON.stringify(doc));
+  saveLastVideoId(sermonDate);
+};
+
+const loadSermonData = (date) => {
+  const sermonData = JSON.parse(localStorage.getItem(date));
+  return sermonData;
+};
+
+const displayToInputData = (sermonData) => {
+  const date = $('#sermon-date').val(sermonData.date);
+  const title = $('#sermon-title').val(sermonData.title);
+  const pastor = $('#sermon-pastor').val(sermonData.pastor);
+  const scripture = $('#sermon-scripture').val(sermonData.scripture);
+  const mp3 = $('#sermon-mp3').val(sermonData.mp3);
+  const podcast = $('#sermon-podcast').val(sermonData.podcast);
+  const video = $('#sermon-video').val(sermonData.video);
+};
+
+const displayToTemplate = (videoText) => {
   const mainText = document.getElementById('main-text');
-  mainText.value = videoData;
+  mainText.value = videoText;
 };
 
-const get_last_video_id = () => {
-  return (last_video_id = localStorage.getItem('last_video_id'));
+const getLastVideoId = () => {
+  return localStorage.getItem('last_video_id');
 };
 
-const save_last_video_id = (video_id) => {
+const saveLastVideoId = (video_id) => {
   localStorage.setItem('last_video_id', video_id);
 };
 
-const saveInputData = (videoText) => {
-  const date = $('#sermon-date').val();
-  const title = $('#sermon-title').val();
-  const pastor = $('#sermon-pastor').val();
-  const scripture = $('#sermon-scripture').val();
-  const mp3 = $('#sermon-mp3').val();
-  const podcast = $('#sermon-podcast').val();
-  const video = $('#sermon-video').val();
-
-  const doc = {
-    _id: date,
-    date: date,
-    title: title,
-    scripture: scripture,
-    mp3: mp3,
-    scripture: scripture,
-    podcast: podcast,
-    video: video,
-    video_text: videoText,
-  };
-
-  video_text_db.put(doc);
-
-  console.log(doc);
-
-  save_last_video_id(date);
-};
-
-const loadVideoData = async (_id) => {
-  const result = await video_text_db.get(_id);
-  console.log(result);
-  return result;
-};
-
-function getTemplate() {
-  const sermonDate = document.getElementById('sermon-date').value;
-  const sermonTitle = document.getElementById('sermon-title').value;
-  const sermonPastor = document.getElementById('sermon-pastor').value;
-  const sermonScripture = document.getElementById('sermon-scripture').value;
-  const sermonMp3 = document.getElementById('sermon-mp3').value;
-  const sermonPodCast = document.getElementById('sermon-podcast').value;
-  const sermonVideo = document.getElementById('sermon-video').value;
-
-  console.log(sermonDate, sermonTitle, sermonPastor, sermonScripture, sermonMp3, sermonPodCast, sermonVideo);
-
+const makeVideoText = ({
+  sermonDate,
+  sermonTitle,
+  sermonPastor,
+  sermonScripture,
+  sermonMp3,
+  sermonPodCast,
+  sermonVideo,
+}) => {
   const sermonDateObject = new Date(sermonDate);
   const sermonYear = String(sermonDateObject.getFullYear());
   const sermonMonth = String(sermonDateObject.getMonth() + 1).padStart(2, 0);
@@ -157,7 +158,5 @@ ${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 구역찬양�
 -----------------
 `;
 
-  console.log(template);
-
   return template;
-}
+};
