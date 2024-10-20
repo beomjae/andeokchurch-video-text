@@ -92,7 +92,7 @@ const makeVideoText = ({
   const sermonMonth = String(sermonDateObject.getMonth() + 1).padStart(2, 0);
   const sermonDay = String(sermonDateObject.getDate()).padStart(2, 0);
 
-  let template = `${sermonDate} - ${sermonTitle}
+  let template = `${sermonYear}.${sermonMonth}.${sermonDay} - ${sermonTitle}
 
 ${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배
 
@@ -121,7 +121,7 @@ MP3 : ${sermonMp3}
 <img width="100" src="https://andeok-sermon.s3.ap-northeast-2.amazonaws.com/podcast_button.png">
 </a>
 
-[전체영상] ${sermonDate} 안덕교회 주일예배 - 1부
+[전체영상] ${sermonYear}.${sermonMonth}.${sermonDay} 안덕교회 주일예배 - 1부
 https://www.youtube.com/watch?v=
 -----------------
 ${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 1부
@@ -133,7 +133,7 @@ ${sermonTitle}
 성경말씀 : ${sermonScripture}
 -----------------
 
-[전체영상] ${sermonDate} 안덕교회 주일예배 - 2부
+[전체영상] ${sermonYear}.${sermonMonth}.${sermonDay} 안덕교회 주일예배 - 2부
 https://www.youtube.com/watch?v=
 -----------------
 ${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 2부
@@ -145,7 +145,7 @@ ${sermonTitle}
 성경말씀 : ${sermonScripture}
 ---------------------
 
-[전체영상] ${sermonDate} 안덕교회 주일예배 - 구역찬양예배
+[전체영상] ${sermonYear}.${sermonMonth}.${sermonDay} 안덕교회 주일예배 - 구역찬양예배
 https://www.youtube.com/watch?v=
 -----------------
 ${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 구역찬양예배
