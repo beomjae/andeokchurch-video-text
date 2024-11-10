@@ -1,8 +1,10 @@
 $(function () {
   let last_video_id = getLastVideoId();
   const lastSermonData = loadSermonData(last_video_id);
-  displayToTemplate(lastSermonData.videoText);
-  displayToInputData(lastSermonData);
+  if (lastSermonData) {
+    displayToTemplate(lastSermonData.videoText);
+    displayToInputData(lastSermonData);
+  }
 
   $('.sermon-input').on('change', function () {
     const sermonData = makeSermonDataFromSermonInputData();
@@ -27,7 +29,6 @@ const makeSermonDataFromSermonInputData = () => {
   const sermonInputData = getSermonInputDataFromInput();
   const videoText = makeVideoText(sermonInputData);
   sermonInputData['videoText'] = videoText;
-
   return sermonInputData;
 };
 
