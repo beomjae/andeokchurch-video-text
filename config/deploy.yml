@@ -1,0 +1,22 @@
+service: andeokchurch-sermon-text
+
+image: beomjae/sermontext
+
+servers:
+  web:
+    - 115.68.220.82
+
+proxy:
+  ssl: true
+  host: andeokchurch-sermon-text.worplab.com
+  # Proxy connects to your container on port 80 by default.
+  # app_port: 3000
+
+registry:
+  server: registry.digitalocean.com
+  username: beomjae@gmail.com
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
