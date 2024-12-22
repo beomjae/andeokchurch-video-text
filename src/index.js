@@ -11,6 +11,8 @@ $(function () {
     saveSermonData(sermonData);
     displayToTemplate(sermonData.videoText);
   });
+
+  $('#btn-download').on('click', downloadToFile);
 });
 
 const getSermonInputDataFromInput = () => {
@@ -77,6 +79,20 @@ const getLastVideoId = () => {
 
 const saveLastVideoId = (video_id) => {
   localStorage.setItem('last_video_id', video_id);
+};
+
+const downloadToFile = () => {
+  const content = $('#main-text').val();
+  const formattedDate = $('#sermon-date').val().replace(/-/g, ''); // YYYYMMDD format
+  const filename = `${formattedDate}.txt`;
+
+  const blob = new Blob([content], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+
+  link.click();
+  URL.revokeObjectURL(link.href);
 };
 
 const makeVideoText = ({
