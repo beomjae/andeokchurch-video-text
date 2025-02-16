@@ -162,10 +162,10 @@ ${sermonTitle}
 성경말씀 : ${sermonScripture}
 ---------------------
 
-[전체영상] ${sermonYear}.${sermonMonth}.${sermonDay} 안덕교회 주일예배 - 구역찬양예배
+[전체영상] ${sermonYear}.${sermonMonth}.${sermonDay} 안덕교회 주일예배 - 3부
 https://www.youtube.com/watch?v=
 -----------------
-${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 구역찬양예배
+${sermonYear}년 ${sermonMonth}월 ${sermonDay}일 주일예배 - 3부
 
 신앙의 순수성을 잃지 맙시다
 
